@@ -37,7 +37,7 @@ with app.app_context():
 def index():
     if current_user.is_authenticated:
         # Redirect to the list of books page if the user is authenticated
-        return redirect(url_for('get_book'))
+        return redirect(url_for('get_books'))
     else:
         # Redirect to the login page if the user is not authenticated
         return redirect(url_for('auth.login'))
@@ -62,7 +62,7 @@ def add_book():
         db.session.add(new_book)
         db.session.commit()
         # Redirect to the list of books
-        return redirect(url_for('get_book'))
+        return redirect(url_for('get_books'))
     # Render the add book form
     return render_template('add_book.html')
 
@@ -79,7 +79,7 @@ def update_book(book_id):
         # Commit the changes to the database
         db.session.commit()
         # Redirect to the list of books
-        return redirect(url_for('get_book'))
+        return redirect(url_for('get_books'))
     # Render the update book form with the current book's data
     return render_template('update_book.html', book=book)
 
@@ -106,7 +106,7 @@ def borrow_book(book_id):
         if not book.available:
             # Return an error if the book is not available
             flash('The book is currently unavailable.', 'error')
-            return redirect(url_for('get_book'))
+            return redirect(url_for('get_books'))
 
         # Create a new transaction for the borrowed book
         transaction = Transaction(book_id=book.id, borrower_id=borrower.id)
@@ -117,7 +117,7 @@ def borrow_book(book_id):
         db.session.commit()
         
         # Redirect to the list of books
-        return redirect(url_for('get_book'))
+        return redirect(url_for('get_books'))
 
     # Render the borrow book form with the selected book
     return render_template('borrow_book.html', book=book)
@@ -141,12 +141,12 @@ def return_book(book_id):
         db.session.commit()
         
         # Redirect to the list of books
-        return redirect(url_for('get_book'))
+        return redirect(url_for('get_books'))
     except Exception as e:
         # Log the error and return a generic error response
         flash('An error occurred while processing the return request.', 'error')
         print(f"Error occurred: {e}")
-        return redirect(url_for('get_book'))
+        return redirect(url_for('get_books'))
     
 # Route to delete a book
 @app.route('/delete_book/<int:book_id>', methods=['GET'])
@@ -155,7 +155,7 @@ def delete_book(book_id):
     db.session.delete(book)
     db.session.commit()
     flash('Book deleted successfully!', 'success')
-    return redirect(url_for('get_book'))
+    return redirect(url_for('get_books'))
 
 
 # Entry point for running the Flask application
