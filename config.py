@@ -1,7 +1,7 @@
 # from flask import app
 class Config:
     # Database configuration
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///library.db'  # Path to the SQLite database file
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///libbrrary.db'  # Path to the SQLite database file
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Disabling modification tracking for performance and to avoid warnings
     
     # Additional configuration options
